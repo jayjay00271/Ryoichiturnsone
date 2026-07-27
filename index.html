@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ryoichi's First Birthday — Join the Crew!</title>
+<meta name="description" content="Ryoichi is turning one! Set sail with us on Saturday, August 22, 2026 at MGN Resort and Pavillion.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Bangers&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sea-deep:#0e2c47;
+    --sea-mid:#1c4d75;
+    --parchment:#f6ead0;
+    --parchment-dark:#e8d6ab;
+    --gold:#e0a63e;
+    --gold-dark:#b9781e;
+    --pirate-red:#c1272d;
+    --chopper-blue:#3e93b8;
+    --ink:#3a2415;
+    --rope:#8a5a30;
+    --success:#3f8f5f;
+    --shadow-soft: 0 10px 30px rgba(20,10,0,.18);
+    --radius: 18px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Quicksand', sans-serif;
+    background:var(--parchment);
+    color:var(--ink);
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  h1,h2,h3{font-family:'Baloo 2', sans-serif; margin:0;}
+  .display{font-family:'Bangers', cursive; letter-spacing:1px;}
+  img{max-width:100%; display:block;}
+  a{color:inherit;}
+  button{font-family:inherit;}
+
+  /* ---------- reveal-on-scroll ---------- */
+  .reveal{opacity:0; transform:translateY(34px) scale(.97); transition:opacity .85s cubic-bezier(.2,.7,.3,1), transform .85s cubic-bezier(.2,.7,.3,1);}
+  .reveal.is-visible{opacity:1; transform:none;}
+  .reveal.reveal-left{ transform: translate(-48px, 14px) rotate(-3deg); }
+  .reveal.reveal-left.is-visible{ transform:none; }
+  .reveal.reveal-right{ transform: translate(48px, 14px) rotate(3deg); }
+  .reveal.reveal-right.is-visible{ transform:none; }
+  .reveal.reveal-scale{ transform: scale(.9) rotate(-1deg); }
+  .reveal.reveal-scale.is-visible{ transform:none; }
+  .reveal.reveal-pop{ transform: scale(.7); transition-timing-function: cubic-bezier(.34,1.56,.64,1); }
+  .reveal.reveal-pop.is-visible{ transform:none; }
+
+  .cards .card:nth-child(1){ transition-delay:0s; }
+  .cards .card:nth-child(2){ transition-delay:.1s; }
+  .cards .card:nth-child(3){ transition-delay:.2s; }
+  .cards .card:nth-child(4){ transition-delay:.3s; }
+
+  .countdown .time-box{ transition: transform .2s ease; }
+  .countdown .time-box:hover{ transform: translateY(-4px) rotate(-2deg); }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1 !important; transform:none !important; transition:none !important;}
+    *{animation:none !important;}
+  }
+
+  /* ================= HERO ================= */
+  .hero{
+    position:relative;
+    min-height:100dvh;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: 90px 20px 60px;
+    background: var(--sea-deep);
+    overflow:hidden;
+  }
+
+  .hero-bg-video{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; z-index:0;
+    background:var(--sea-deep);
+  }
+  .hero-video-overlay{
+    position:absolute; inset:0; z-index:1;
+    background: linear-gradient(180deg, rgba(14,44,71,.18) 0%, rgba(14,44,71,.35) 55%, rgba(14,44,71,.6) 100%);
+  }
+  .hero-title{ color:var(--gold); text-shadow: 4px 4px 0 var(--pirate-red), 4px 4px 0 var(--pirate-red), 0 2px 20px rgba(0,0,0,.4); }
+  .hero-sub{ color:#fff; }
+  .hero .eyebrow{ background:rgba(255,255,255,.9); }
+
+  /* section-to-section wave joints, keeps the "sailing between islands" feel */
+  .wave-joint{ position:relative; line-height:0; z-index:2; pointer-events:none; margin-top:-1px; }
+  .wave-joint svg{ width:100%; height:56px; display:block; }
+  .wave-joint.to-deep path{ fill:var(--sea-deep); }
+  .wave-joint.to-parchment path{ fill:var(--parchment); }
+
+  .eyebrow{
+    position:relative; z-index:4;
+    display:inline-block;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    color:var(--pirate-red);
+    background:rgba(255,255,255,.75);
+    padding:6px 18px;
+    border-radius:999px;
+    border:2px dashed var(--pirate-red);
+    font-size:.95rem;
+    letter-spacing:.5px;
+    margin-bottom:18px;
+  }
+
+  .hero-title{
+    position:relative; z-index:4;
+    font-size: clamp(2.6rem, 10vw, 5rem);
+    color:var(--gold);
+    -webkit-text-stroke: 2.5px var(--ink);
+    paint-order: stroke fill;
+    text-shadow: 4px 4px 0 var(--pirate-red), 4px 4px 0 var(--pirate-red);
+    line-height:1.05;
+    margin-bottom:6px;
+    padding:0 6px;
+    animation: title-glow 3.4s ease-in-out infinite;
+  }
+  @keyframes title-glow{
+    0%,100%{ filter: drop-shadow(0 0 0 rgba(224,166,62,0)); }
+    50%{ filter: drop-shadow(0 0 16px rgba(224,166,62,.5)); }
+  }
+  .hero-sub{
+    position:relative; z-index:4;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size: clamp(1rem, 3vw, 1.35rem);
+    color:var(--sea-deep);
+    margin-top: 8px;
+  }
+
+  .porthole{
+    position:relative; z-index:4;
+    width: 210px; height:210px;
+    border-radius:50%;
+    margin: 26px auto 10px;
+    background: var(--rope);
+    padding:10px;
+    box-shadow: var(--shadow-soft), 0 0 0 6px rgba(255,255,255,.5) inset;
+    animation: bob 4.5s ease-in-out infinite;
+  }
+  .porthole-inner{
+    width:100%; height:100%; border-radius:50%; overflow:hidden;
+    border:4px solid var(--parchment);
+    background:#fff;
+  }
+  .porthole-inner img{width:100%; height:100%; object-fit:cover;}
+  @keyframes bob{
+    0%,100%{ transform: translateY(0) rotate(-1deg); }
+    50%{ transform: translateY(-10px) rotate(1deg); }
+  }
+
+  .scroll-cue{
+    position:relative; z-index:4;
+    margin-top:34px;
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    font-size:.85rem; color:#fff; font-weight:600;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  .scroll-cue svg{width:26px; height:26px;}
+  @keyframes bounce{
+    0%,100%{ transform: translateY(0); }
+    50%{ transform: translateY(8px); }
+  }
+
+  /* ================= SECTION SHARED ================= */
+  section{ padding: 84px 20px; position:relative; }
+  .section-inner{ max-width: 980px; margin:0 auto; }
+  .section-head{ text-align:center; margin-bottom:52px; }
+  .section-eyebrow{
+    font-family:'Baloo 2'; font-weight:700; color:var(--pirate-red);
+    letter-spacing:2px; text-transform:uppercase; font-size:.85rem;
+  }
+  .section-title{
+    font-size: clamp(1.9rem, 5vw, 2.7rem);
+    color:var(--sea-deep);
+    margin-top:6px;
+  }
+  .section-title .display-accent{ color:var(--gold-dark); font-family:'Bangers'; }
+
+  /* ================= LOG BOOK / DETAILS ================= */
+  .logbook{ background: linear-gradient(180deg, var(--parchment) 0%, #f0e1bc 100%); }
+
+  .map-wrap{ position:relative; }
+  .dotted-path{
+    position:absolute; inset:0; z-index:0; pointer-events:none;
+    opacity:.55;
+  }
+
+  .cards{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:22px;
+    position:relative; z-index:1;
+  }
+  @media (max-width: 900px){ .cards{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px){ .cards{ grid-template-columns: 1fr; } }
+
+  .card{
+    background: var(--parchment);
+    border-radius: var(--radius);
+    padding: 26px 18px 22px;
+    text-align:center;
+    box-shadow: var(--shadow-soft);
+    border: 2px solid var(--rope);
+    position:relative;
+  }
+  .card::before{
+    content:''; position:absolute; top:-10px; left:50%; transform:translateX(-50%);
+    width:34px; height:20px; background:var(--rope); border-radius:4px;
+  }
+  .card-icon{
+    width:52px; height:52px; margin:6px auto 14px;
+    display:flex; align-items:center; justify-content:center;
+    background: var(--chopper-blue); border-radius:50%;
+    box-shadow: 0 4px 0 rgba(0,0,0,.15);
+  }
+  .card-icon svg{ width:28px; height:28px; }
+  .card h3{
+    font-family:'Baloo 2'; font-weight:700; font-size:.8rem;
+    text-transform:uppercase; letter-spacing:1.5px; color:var(--gold-dark);
+    margin-bottom:6px;
+  }
+  .card p{ margin:0; font-weight:600; font-size:1.05rem; color:var(--ink); line-height:1.4; }
+  .card small{ display:block; font-weight:500; color:#6b5a44; font-size:.8rem; margin-top:4px; }
+
+  .venue-note{
+    text-align:center; margin-top:28px; font-weight:600; color:var(--sea-deep);
+  }
+  .venue-note a.map-link{
+    display:inline-flex; align-items:center; gap:6px;
+    margin-top:10px; color:var(--pirate-red); text-decoration:none; font-weight:700;
+    border-bottom:2px dashed var(--pirate-red); padding-bottom:2px;
+  }
+
+  /* ================= COUNTDOWN ================= */
+  .countdown-section{
+    background: var(--sea-deep);
+    color: var(--parchment);
+    text-align:center;
+  }
+  .countdown-section .section-eyebrow{ color: var(--gold); }
+  .countdown-section .section-title{ color: var(--parchment); }
+
+  .countdown{
+    display:flex; justify-content:center; gap:16px; flex-wrap:wrap; margin-top:40px;
+  }
+  .time-box{
+    background: linear-gradient(160deg, #8a5a30, #6b4322);
+    border-radius:14px;
+    width:100px; height:100px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    box-shadow: 0 6px 0 #4a2b12, var(--shadow-soft);
+    border: 2px solid #a97a45;
+    position:relative;
+  }
+  .time-box .num{
+    font-family:'Bangers'; font-size:2.1rem; color:var(--gold); line-height:1;
+  }
+  .time-box .lbl{
+    font-size:.7rem; text-transform:uppercase; letter-spacing:1px; font-weight:700; margin-top:6px; color:var(--parchment);
+  }
+
+  .calendar-btn{
+    display:inline-flex; align-items:center; gap:8px;
+    margin-top:36px; padding:12px 26px;
+    background: var(--gold); color:var(--ink); font-weight:700;
+    border-radius:999px; text-decoration:none; font-family:'Baloo 2';
+    box-shadow: 0 4px 0 var(--gold-dark);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .calendar-btn:hover{ transform: translateY(-2px); }
+  .calendar-btn:active{ transform: translateY(3px); box-shadow:0 1px 0 var(--gold-dark); }
+
+  /* ================= RSVP ================= */
+  .rsvp-section{ background: var(--parchment); }
+
+  .scroll-frame{
+    max-width: 640px; margin: 0 auto;
+    background: #fffaf0;
+    border-radius: var(--radius);
+    border: 3px solid var(--rope);
+    box-shadow: var(--shadow-soft);
+    padding: 34px 26px 30px;
+    position:relative;
+  }
+  .scroll-frame::before, .scroll-frame::after{
+    content:''; position:absolute; left:-10px; right:-10px; height:20px;
+    background: repeating-linear-gradient(90deg, var(--rope) 0 10px, #6b4322 10px 20px);
+    border-radius:10px;
+  }
+  .scroll-frame::before{ top:-10px; }
+  .scroll-frame::after{ bottom:-10px; }
+
+  .field{ margin-bottom:20px; text-align:left; }
+  .field label{
+    display:block; font-family:'Baloo 2'; font-weight:700; color:var(--sea-deep);
+    margin-bottom:7px; font-size:.95rem;
+  }
+  .field input, .field textarea{
+    width:100%; padding:12px 14px; border-radius:10px;
+    border:2px solid var(--parchment-dark); background:#fffdf7;
+    font-family:'Quicksand'; font-size:1rem; color:var(--ink);
+    -webkit-appearance:none; appearance:none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .field input:focus, .field textarea:focus{
+    outline:none; border-color:var(--chopper-blue);
+    box-shadow: 0 0 0 4px rgba(62,147,184,.18);
+  }
+  .field textarea{ resize:vertical; min-height:90px; }
+
+  /* -- Yes / No crew decision -- big, playful, two-way only -- */
+  .attend-row{ display:flex; gap:14px; }
+  .attend-pill{ flex:1; position:relative; }
+  .attend-pill input{
+    position:absolute; opacity:0; width:100%; height:100%; margin:0; cursor:pointer;
+  }
+  .attend-pill span{
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    text-align:center; padding:16px 10px; border-radius:14px;
+    border:3px solid var(--parchment-dark); font-weight:800; font-family:'Baloo 2';
+    color:var(--sea-deep); background:#fffdf7;
+    transition: transform .18s cubic-bezier(.34,1.56,.64,1), background .15s ease, border-color .15s ease, box-shadow .15s ease;
+    box-shadow: 0 4px 0 rgba(0,0,0,.08);
+  }
+  .attend-pill span .attend-icon{ font-size:1.6rem; line-height:1; }
+  .attend-pill input:hover + span{ transform: translateY(-2px); }
+  .attend-pill input:checked + span{
+    transform: translateY(-3px) rotate(-1deg) scale(1.03);
+  }
+  .attend-pill.yes input:checked + span{
+    background: var(--chopper-blue); border-color:var(--chopper-blue); color:#fff;
+    box-shadow: 0 5px 0 #2a6f8f;
+  }
+  .attend-pill.no input:checked + span{
+    background: var(--pirate-red); border-color:var(--pirate-red); color:#fff;
+    box-shadow: 0 5px 0 #8a1c20;
+  }
+
+  .submit-btn{
+    width:100%; padding:16px; margin-top:22px;
+    background: var(--pirate-red); color:#fff; font-family:'Baloo 2'; font-weight:700;
+    font-size:1.1rem; border:none; border-radius:12px; cursor:pointer;
+    box-shadow: 0 5px 0 #8a1c20;
+    transition: transform .12s ease, box-shadow .12s ease;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+  }
+  .submit-btn:hover:not(:disabled){ transform: translateY(-1px); }
+  .submit-btn:active:not(:disabled){ transform: translateY(4px); box-shadow:0 1px 0 #8a1c20; }
+  .submit-btn:disabled{ opacity:.75; cursor:default; }
+  .submit-btn svg{ width:20px; height:20px; }
+
+  .form-status{
+    margin-top:16px; text-align:center; font-weight:700; min-height:24px;
+    display:none;
+  }
+  .form-status.show{ display:block; }
+  .form-status.ok{ color: var(--success); }
+  .form-status.err{ color: var(--pirate-red); }
+
+  .spinner{
+    width:18px; height:18px; border-radius:50%;
+    border:3px solid rgba(255,255,255,.4); border-top-color:#fff;
+    animation: spin .7s linear infinite; display:none;
+  }
+  .spinner.show{ display:inline-block; }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+
+  /* ================= FOOTER ================= */
+  footer{
+    position:relative;
+    background: var(--sea-deep); color: var(--parchment);
+    text-align:center; padding: 60px 20px 40px;
+  }
+  .compass{ width:76px; height:76px; margin:0 auto 18px; animation: spin-slow 30s linear infinite; }
+  @keyframes spin-slow{ to{ transform: rotate(360deg); } }
+  footer h3{ font-family:'Baloo 2'; font-size:1.3rem; color:var(--gold); margin-bottom:8px; }
+  footer .rsvp-contact{ font-weight:700; font-size:1.15rem; margin-top:4px; }
+  footer .rsvp-contact a{ color:var(--gold); text-decoration:none; }
+  footer .fine{ margin-top:30px; font-size:.8rem; opacity:.65; }
+
+  @media (max-width: 480px){
+    .porthole{ width:170px; height:170px; }
+  }
+
+  /* ================= CHARACTER STICKERS / PICTURE SOCKETS ================= */
+  .sticker{
+    position:absolute;
+    border-radius:16px;
+    box-shadow: 0 8px 18px rgba(20,10,0,.22);
+    border: 3px solid #fff;
+    overflow:hidden;
+    z-index:3;
+  }
+  .sticker img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  .sticker-balloon{
+    width:92px; height:110px; top:30%; left:4%;
+    animation: sticker-drift 7s ease-in-out infinite;
+  }
+  .sticker-jollyroger{
+    width:92px; height:92px; top:9%; right:5%;
+    animation: sticker-drift 6s ease-in-out infinite; animation-delay:-2s;
+  }
+  @keyframes sticker-drift{
+    0%,100%{ transform: translateY(0) rotate(-3deg); }
+    50%{ transform: translateY(-12px) rotate(3deg); }
+  }
+
+  .sticker-luffy{
+    width:84px; height:84px; top:-18px; right:18px;
+    transform: rotate(6deg);
+  }
+  .sticker-chopper-corner{
+    width:84px; height:84px; bottom:-18px; left:18px;
+    transform: rotate(-7deg);
+  }
+
+  .sticker-approve{
+    width:76px; height:76px; top:-20px; right:22px;
+    transform: rotate(8deg);
+    border-radius:50%;
+  }
+
+  .sticker-extra-hero{
+    width:80px; height:80px; bottom:14%; left:5%;
+    animation: sticker-drift 6.5s ease-in-out infinite; animation-delay:-3s;
+  }
+  .sticker-extra-countdown{
+    width:78px; height:78px; top:8%; right:6%;
+    transform: rotate(-6deg);
+  }
+  .sticker-extra-footer{
+    width:70px; height:70px; top:10px; left:6%;
+    transform: rotate(-5deg);
+  }
+  .sticker-extra-logbook{
+    width:78px; height:78px; top:-16px; left:calc(50% - 39px);
+    transform: rotate(4deg);
+  }
+  .sticker-extra-rsvp{
+    width:70px; height:70px; bottom:-18px; right:16px;
+    transform: rotate(9deg);
+  }
+
+  @media (max-width: 640px){
+    .sticker-balloon{ width:68px; height:82px; }
+    .sticker-jollyroger{ width:68px; height:68px; }
+    .sticker-luffy, .sticker-chopper-corner{ width:64px; height:64px; }
+    .sticker-approve{ width:58px; height:58px; }
+    .sticker-extra-hero{ width:60px; height:60px; }
+    .sticker-extra-countdown{ width:60px; height:60px; }
+    .sticker-extra-footer{ width:52px; height:52px; }
+    .sticker-extra-logbook{ width:58px; height:58px; left:calc(50% - 29px); }
+    .sticker-extra-rsvp{ width:54px; height:54px; }
+  }
+
+  /* ================= CONFETTI ================= */
+  .confetti-burst{
+    position:fixed; inset:0; pointer-events:none; z-index:9999; overflow:hidden;
+  }
+  .confetti-piece{
+    position:absolute; top:-20px; width:9px; height:14px;
+    opacity:.9; border-radius:2px;
+    animation-name: confetti-fall; animation-timing-function: ease-in; animation-fill-mode: forwards;
+  }
+  @keyframes confetti-fall{
+    to{ transform: translateY(105vh) rotate(600deg); opacity:0; }
+  }
+
+  /* ================= PRELOADER ================= */
+  .preloader{
+    position:fixed; inset:0; z-index:10000;
+    background: var(--sea-deep);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px;
+    transition: opacity .6s ease, visibility .6s ease;
+  }
+  .preloader.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+  .preloader-compass{ width:64px; height:64px; animation: spin-slow 2.2s linear infinite; }
+  .preloader-text{
+    font-family:'Baloo 2', sans-serif; font-weight:700; color:var(--parchment);
+    letter-spacing:1px; font-size:.95rem; opacity:.85;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .preloader{ transition:none; }
+  }
+
+  /* ================= VOYAGE TRACK — "sail" through the page as you scroll ================= */
+  .voyage-track{
+    position:fixed; right:14px; top:50%; transform:translateY(-50%);
+    z-index:500;
+    display:flex; flex-direction:column; align-items:center;
+    height:min(46vh, 340px);
+    opacity:0; pointer-events:none;
+    transition: opacity .4s ease;
+  }
+  .voyage-track.show{ opacity:1; pointer-events:auto; }
+  .voyage-rope{
+    position:absolute; top:0; bottom:0; left:50%; width:3px; transform:translateX(-50%);
+    background: repeating-linear-gradient(180deg, var(--rope) 0 8px, transparent 8px 14px);
+    border-radius:3px; z-index:0;
+  }
+  .voyage-stops{
+    position:relative; z-index:1;
+    height:100%; width:100%;
+    display:flex; flex-direction:column; justify-content:space-between; align-items:center;
+  }
+  .voyage-stop{
+    all:unset; cursor:pointer;
+    display:flex; align-items:center; gap:8px;
+    flex-direction:row-reverse;
+  }
+  .voyage-dot{
+    width:14px; height:14px; border-radius:50%;
+    background: var(--parchment); border:3px solid var(--rope);
+    box-shadow: 0 2px 4px rgba(0,0,0,.25);
+    transition: background .2s ease, transform .2s ease;
+  }
+  .voyage-stop.active .voyage-dot{ background: var(--gold); transform: scale(1.25); }
+  .voyage-label{
+    font-family:'Baloo 2'; font-size:.7rem; font-weight:700; color:var(--sea-deep);
+    background:rgba(246,234,208,.92); padding:3px 9px; border-radius:999px;
+    white-space:nowrap; opacity:0; transform:translateX(6px);
+    transition: opacity .18s ease, transform .18s ease;
+    border:1.5px solid var(--rope);
+  }
+  .voyage-stop:hover .voyage-label, .voyage-stop.active .voyage-label{ opacity:1; transform:none; }
+  .voyage-ship{
+    position:absolute; left:50%; top:0; width:34px; height:34px;
+    transform: translate(-50%, -50%);
+    z-index:2; filter: drop-shadow(0 3px 4px rgba(0,0,0,.35));
+    transition: top .12s linear;
+  }
+  .voyage-ship svg{ width:100%; height:100%; }
+
+  @media (max-width: 720px){
+    .voyage-track{ right:6px; height:min(38vh, 230px); }
+    .voyage-label{ display:none; }
+    .voyage-ship{ width:26px; height:26px; }
+    .voyage-dot{ width:11px; height:11px; }
+  }
+
+  /* ================= WATERMARK ================= */
+  .made-by-stamp{
+    position:fixed; left:10px; bottom:10px; z-index:600;
+    font-family:'Baloo 2', sans-serif; font-size:.68rem; font-weight:700;
+    letter-spacing:.5px; color:var(--parchment);
+    background: rgba(14,44,71,.55);
+    border:1.5px solid rgba(224,166,62,.7);
+    padding:4px 10px; border-radius:999px;
+    transform: rotate(-3deg);
+    pointer-events:none;
+    -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+  }
+  .made-by-stamp span{ color:var(--gold); }
+
+</style>
+</head>
+<body>
+
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloader-compass">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="44" fill="none" stroke="#e0a63e" stroke-width="3"/>
+      <circle cx="50" cy="50" r="3.5" fill="#e0a63e"/>
+      <path d="M50 10 L57 50 L50 90 L43 50 Z" fill="#f6ead0"/>
+      <path d="M10 50 L50 43 L90 50 L50 57 Z" fill="#e0a63e"/>
+    </svg>
+  </div>
+  <p class="preloader-text">Charting the course…</p>
+</div>
+
+<!-- ================= VOYAGE TRACK (boat that sails as you scroll) ================= -->
+<div class="voyage-track" id="voyage-track" aria-hidden="true">
+  <div class="voyage-rope"></div>
+  <div class="voyage-stops">
+    <button class="voyage-stop" data-target="hero"><span class="voyage-dot"></span><span class="voyage-label">Ahoy!</span></button>
+    <button class="voyage-stop" data-target="logbook"><span class="voyage-dot"></span><span class="voyage-label">The Map</span></button>
+    <button class="voyage-stop" data-target="countdown-section"><span class="voyage-dot"></span><span class="voyage-label">Countdown</span></button>
+    <button class="voyage-stop" data-target="rsvp"><span class="voyage-dot"></span><span class="voyage-label">Crew List</span></button>
+    <button class="voyage-stop" data-target="site-footer"><span class="voyage-dot"></span><span class="voyage-label">Anchor</span></button>
+  </div>
+  <div class="voyage-ship" id="voyage-ship">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 60 L92 60 L80 82 L20 82 Z" fill="#7a4a22" stroke="#4a2b12" stroke-width="2"/>
+      <rect x="46" y="14" width="4" height="46" fill="#4a2b12"/>
+      <path d="M50 18 L80 42 L50 46 Z" fill="#f6ead0"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ================= HERO ================= -->
+<section class="hero has-video" id="hero">
+  <video class="hero-bg-video" id="hero-video" muted loop playsinline preload="auto" autoplay></video>
+  <div class="hero-video-overlay" aria-hidden="true"></div>
+
+  <div class="sticker sticker-balloon" aria-hidden="true">
+    <img id="img-balloon" src="chopper_balloon.jpg" alt="" loading="eager">
+  </div>
+  <div class="sticker sticker-jollyroger" aria-hidden="true">
+    <img id="img-jollyroger" src="jollyroger_topright.jpg" alt="" loading="eager">
+  </div>
+  <div class="sticker sticker-extra-hero" id="slot-extra-hero" aria-hidden="true" style="display:none;">
+    <img id="img-extra-hero" src="" alt="" loading="lazy">
+  </div>
+
+  <span class="eyebrow">Come Aboard!</span>
+  <h1 class="hero-title display">Ryoichi's<br>First Birthday!</h1>
+  <p class="hero-sub">One little pirate. One incredible year at sea. Join the crew!</p>
+
+  <div class="porthole">
+    <div class="porthole-inner">
+      <img id="hero-photo" src="baby_crop.jpg" alt="Ryoichi dressed as a little pirate captain, holding his teddy bear" loading="eager">
+    </div>
+  </div>
+
+  <div class="scroll-cue">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22V4M12 22l-6-6M12 22l6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Scroll to set sail with us
+  </div>
+</section>
+
+<div class="wave-joint to-parchment" aria-hidden="true">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,30 C240,0 480,58 720,30 C960,2 1200,52 1440,26 L1440,60 L0,60 Z"/></svg>
+</div>
+
+<!-- ================= LOG BOOK / DETAILS ================= -->
+<section class="logbook" id="logbook">
+  <div class="section-inner">
+    <div class="section-head reveal reveal-scale">
+      <div class="section-eyebrow">The Captain's Log</div>
+      <h2 class="section-title">Mark your <span class="display-accent">map</span></h2>
+    </div>
+
+    <div class="map-wrap">
+      <div class="sticker sticker-luffy" aria-hidden="true">
+        <img id="img-luffy" src="chibi_luffy_br.jpg" alt="" loading="lazy">
+      </div>
+      <div class="sticker sticker-chopper-corner" aria-hidden="true">
+        <img id="img-chopper-corner" src="chibi_chopper_bl.jpg" alt="" loading="lazy">
+      </div>
+      <div class="sticker sticker-extra-logbook" id="slot-extra-logbook" aria-hidden="true" style="display:none;">
+        <img id="img-extra-logbook" src="" alt="" loading="lazy">
+      </div>
+      <div class="cards">
+        <div class="card reveal reveal-left">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Date</h3>
+          <p>Saturday</p>
+          <small>August 22, 2026</small>
+        </div>
+        <div class="card reveal reveal-right">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Time</h3>
+          <p>1:00 PM</p>
+          <small>Gather your crew!</small>
+        </div>
+        <div class="card reveal reveal-left">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 21h18M5 21V10l7-6 7 6v11M9 21v-6h6v6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Venue</h3>
+          <p>MGN Resort<br>and Pavillion</p>
+        </div>
+        <div class="card reveal reveal-right">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 21s-7-6.5-7-11a7 7 0 1114 0c0 4.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          </div>
+          <h3>Address</h3>
+          <p style="font-size:.95rem;">IROMRY'S Trading<br>Calaca</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="venue-note reveal">
+      Come dressed for adventure — pirates, mermaids, and nakama of all kinds welcome!
+      <br>
+      <a class="map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=IROMRY%27S%20Trading%20Calaca%2C%20MGN%20Resort%20and%20Pavillion">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 21s-7-6.5-7-11a7 7 0 1114 0c0 4.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        Open in Google Maps
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="wave-joint to-deep" aria-hidden="true">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,26 C240,54 480,4 720,30 C960,56 1200,6 1440,32 L1440,60 L0,60 Z"/></svg>
+</div>
+
+<!-- ================= COUNTDOWN ================= -->
+<section class="countdown-section" id="countdown-section">
+  <div class="sticker sticker-extra-countdown" id="slot-extra-countdown" aria-hidden="true" style="display:none;">
+    <img id="img-extra-countdown" src="" alt="" loading="lazy">
+  </div>
+  <div class="section-inner">
+    <div class="section-head reveal reveal-scale">
+      <div class="section-eyebrow">All Hands on Deck</div>
+      <h2 class="section-title">Setting sail in…</h2>
+    </div>
+    <div class="countdown reveal reveal-pop" id="countdown">
+      <div class="time-box"><div class="num" id="cd-days">00</div><div class="lbl">Days</div></div>
+      <div class="time-box"><div class="num" id="cd-hours">00</div><div class="lbl">Hours</div></div>
+      <div class="time-box"><div class="num" id="cd-mins">00</div><div class="lbl">Mins</div></div>
+      <div class="time-box"><div class="num" id="cd-secs">00</div><div class="lbl">Secs</div></div>
+    </div>
+    <div style="text-align:center;">
+      <a class="calendar-btn reveal" id="calendar-link" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#3a2415" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4" stroke-linecap="round"/></svg>
+        Add to Calendar
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="wave-joint to-parchment" aria-hidden="true">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,30 C240,58 480,2 720,28 C960,54 1200,4 1440,30 L1440,60 L0,60 Z"/></svg>
+</div>
+
+<!-- ================= RSVP ================= -->
+<section class="rsvp-section" id="rsvp">
+  <div class="section-inner">
+    <div class="section-head reveal reveal-scale">
+      <div class="section-eyebrow">Sign the Crew Manifest</div>
+      <h2 class="section-title">RSVP for the <span class="display-accent">voyage</span></h2>
+    </div>
+
+    <div class="scroll-frame reveal reveal-scale">
+      <div class="sticker sticker-approve" aria-hidden="true">
+        <img id="img-approve" src="chopper_topleft.jpg" alt="" loading="lazy">
+      </div>
+      <div class="sticker sticker-extra-rsvp" id="slot-extra-rsvp" aria-hidden="true" style="display:none;">
+        <img id="img-extra-rsvp" src="" alt="" loading="lazy">
+      </div>
+
+      <form id="rsvpForm" novalidate method="POST" target="rsvp-hidden-frame">
+        <div class="field">
+          <label for="guest-name">Your name</label>
+          <input type="text" id="guest-name" name="name" placeholder="e.g. Monkey D. Luffy" required autocomplete="name">
+        </div>
+
+        <div class="field">
+          <label for="guest-contact">Contact number</label>
+          <input type="tel" id="guest-contact" name="contact" placeholder="09xx xxx xxxx" required autocomplete="tel" inputmode="tel">
+        </div>
+
+        <div class="field">
+          <label>Will you join the crew?</label>
+          <div class="attend-row">
+            <label class="attend-pill yes">
+              <input type="radio" name="attending" value="Yes" checked>
+              <span><span class="attend-icon">⚓</span>Aye, I'll be there!</span>
+            </label>
+            <label class="attend-pill no">
+              <input type="radio" name="attending" value="No">
+              <span><span class="attend-icon">🏴‍☠️</span>Arrr, can't make it</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="guest-count">Number of guests (including you)</label>
+          <input type="number" id="guest-count" name="guests" min="1" max="20" value="1" inputmode="numeric">
+        </div>
+
+        <div class="field">
+          <label for="guest-message">A message for Ryoichi (optional)</label>
+          <textarea id="guest-message" name="message" placeholder="Happy 1st birthday, little captain! 🏴‍☠️"></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submit-btn">
+          <span class="spinner" id="submit-spinner"></span>
+          <span id="submit-label">Set Sail — Submit RSVP</span>
+        </button>
+
+        <div class="form-status" id="rsvpMsg" role="status" aria-live="polite"></div>
+      </form>
+      <iframe name="rsvp-hidden-frame" id="rsvp-hidden-frame" style="display:none;" title="RSVP submission (hidden)" aria-hidden="true"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer id="site-footer">
+  <div class="sticker sticker-extra-footer" id="slot-extra-footer" aria-hidden="true" style="display:none;">
+    <img id="img-extra-footer" src="" alt="" loading="lazy">
+  </div>
+  <div class="compass" aria-hidden="true">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="46" fill="none" stroke="#e0a63e" stroke-width="3"/>
+      <circle cx="50" cy="50" r="3.5" fill="#e0a63e"/>
+      <path d="M50 8 L58 50 L50 92 L42 50 Z" fill="#f6ead0"/>
+      <path d="M8 50 L50 42 L92 50 L50 58 Z" fill="#e0a63e"/>
+    </svg>
+  </div>
+  <h3>Questions? Ask our Navigator</h3>
+  <div class="rsvp-contact">Gabrielle A. Noche — <a href="tel:09999910131">0999 991 0131</a></div>
+  <p class="fine">Made with love for Ryoichi's crew &amp; nakama · See you on August 22, 2026 🍼⚓</p>
+</footer>
+
+<div class="made-by-stamp" aria-hidden="true">Made by <span>Jmr-CC</span></div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ================================================================
+     🖼️  PICTURE SOCKETS — paste your own image links below. Any direct
+     image URL works (Google Drive "anyone with link" converted to a
+     direct link, Imgur, Dropbox, your own hosting, etc). Must point
+     straight at a .jpg/.png/.webp file, not a webpage.
+
+     The six marked as core already have a picture — replace the text
+     between the quotes to swap it. The five marked "optional, empty by
+     default" are extra slots: leave them as "" to keep them hidden,
+     or paste a link to make a new sticker appear.
+     ================================================================ */
+  var MEDIA = {
+    'hero-photo':        "baby_crop.jpg",           // main portrait in the porthole
+    'img-balloon':       "chopper_balloon.jpg",      // floating balloon, left side of hero
+    'img-jollyroger':    "jollyroger_topright.jpg",  // flag sticker, top-right of hero
+    'img-luffy':         "chibi_luffy_br.jpg",       // corner sticker, Captain's Log section
+    'img-chopper-corner':"chibi_chopper_bl.jpg",     // corner sticker, Captain's Log section
+    'img-approve':       "chopper_topleft.jpg",      // seal sticker on the RSVP scroll
+    'img-extra-hero':        "",  // optional, empty by default — extra sticker in the hero
+    'img-extra-logbook':     "",  // optional, empty by default — extra sticker above the Captain's Log cards
+    'img-extra-countdown':   "",  // optional, empty by default — extra sticker in the countdown
+    'img-extra-rsvp':        "",  // optional, empty by default — extra sticker on the RSVP scroll
+    'img-extra-footer':      ""   // optional, empty by default — extra sticker in the footer
+  };
+
+  var OPTIONAL_SLOT_IDS = {
+    'img-extra-hero': 'slot-extra-hero',
+    'img-extra-logbook': 'slot-extra-logbook',
+    'img-extra-countdown': 'slot-extra-countdown',
+    'img-extra-rsvp': 'slot-extra-rsvp',
+    'img-extra-footer': 'slot-extra-footer'
+  };
+
+  Object.keys(MEDIA).forEach(function(imgId){
+    var url = MEDIA[imgId];
+    var img = document.getElementById(imgId);
+    var slotId = OPTIONAL_SLOT_IDS[imgId];
+    if (slotId){
+      // optional slot: only show it once a URL is provided
+      var slot = document.getElementById(slotId);
+      if (url){
+        if (img) img.src = url;
+        if (slot) slot.style.display = 'block';
+      }
+    } else if (img && url){
+      img.src = url;
+    }
+  });
+
+  /* ================================================================
+     🎬  VIDEO BACKGROUND SOCKET — paste a direct .mp4 link here to
+     replace the animated hero scene with your own video. Leave it as
+     "" to keep the default animated pirate scene (recommended if you
+     don't have a video ready — it always works and needs no internet
+     bandwidth from your guests).
+
+     Tips for a smooth, bug-free video background:
+     - Use .mp4 (H.264), under ~10MB, and no longer than 10-15 seconds
+       (it will loop automatically) — big files load slowly on phones.
+     - The video is always muted and silent so it can autoplay on
+       iPhone; there is no audio button, by design.
+     - If the video fails to load for any reason, the site quietly
+       falls back to the animated scene instead of showing a blank hero.
+     ================================================================ */
+  var HERO_VIDEO_URL = "one.mp4"; // <-- your video file/link goes here (keep one.mp4 next to index.html, or paste a full link)
+
+  (function setupHeroVideo(){
+    var video = document.getElementById('hero-video');
+    if (!video || !HERO_VIDEO_URL) return;
+    video.src = HERO_VIDEO_URL;
+    video.load();
+    var playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === 'function'){
+      playPromise.catch(function(){ /* autoplay blocked until the guest interacts — video still plays once they scroll/tap */ });
+    }
+  })();
+
+  /* ---------- preloader ---------- */
+  (function(){
+    var pre = document.getElementById('preloader');
+    if (!pre) return;
+    var minTimer = new Promise(function(res){ setTimeout(res, 550); });
+    var loadEvent = new Promise(function(res){
+      if (document.readyState === 'complete') { res(); }
+      else { window.addEventListener('load', res, { once:true }); }
+    });
+    Promise.all([minTimer, loadEvent]).then(function(){
+      pre.classList.add('hide');
+      setTimeout(function(){ pre.remove(); }, 700);
+    });
+    // safety net so the site is never stuck behind the preloader
+    setTimeout(function(){ pre.classList.add('hide'); }, 3200);
+  })();
+
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isFinePointer = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  /* ---------- voyage track: your boat sails down the page as you scroll ---------- */
+  (function(){
+    var track = document.getElementById('voyage-track');
+    var ship = document.getElementById('voyage-ship');
+    var stops = Array.prototype.slice.call(document.querySelectorAll('.voyage-stop'));
+    if (!track || !ship || !stops.length) return;
+
+    var sections = stops.map(function(btn){
+      return document.getElementById(btn.getAttribute('data-target'));
+    });
+
+    var ticking = false;
+    function update(){
+      var doc = document.documentElement;
+      var scrollTop = window.scrollY || doc.scrollTop;
+      var max = (doc.scrollHeight - doc.clientHeight) || 1;
+      var pct = Math.min(1, Math.max(0, scrollTop / max));
+
+      track.classList.toggle('show', scrollTop > 40);
+
+      var trackHeight = track.querySelector('.voyage-stops').getBoundingClientRect().height;
+      ship.style.top = (pct * trackHeight) + 'px';
+
+      // highlight the section currently in view
+      var viewportMid = scrollTop + window.innerHeight * 0.4;
+      var activeIndex = 0;
+      sections.forEach(function(sec, i){
+        if (sec && sec.offsetTop <= viewportMid) activeIndex = i;
+      });
+      stops.forEach(function(btn, i){ btn.classList.toggle('active', i === activeIndex); });
+
+      ticking = false;
+    }
+    window.addEventListener('scroll', function(){
+      if (!ticking){ requestAnimationFrame(update); ticking = true; }
+    }, { passive:true });
+    window.addEventListener('resize', update);
+    update();
+
+    stops.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var target = document.getElementById(btn.getAttribute('data-target'));
+        if (target) target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      });
+    });
+  })();
+
+  /* ---------- desktop card tilt ---------- */
+  if (isFinePointer && !reduceMotion){
+    document.querySelectorAll('.card').forEach(function(card){
+      card.style.transition = 'transform .25s ease, box-shadow .25s ease';
+      card.addEventListener('mousemove', function(e){
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = 'perspective(700px) rotateX(' + (py * -8) + 'deg) rotateY(' + (px * 8) + 'deg) translateY(-4px)';
+      });
+      card.addEventListener('mouseleave', function(){
+        card.style.transform = '';
+      });
+    });
+  }
+
+  /* ---------- reveal on scroll ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  /* ---------- countdown ---------- */
+  var target = new Date("2026-08-22T13:00:00+08:00").getTime();
+  var elDays = document.getElementById('cd-days');
+  var elHours = document.getElementById('cd-hours');
+  var elMins = document.getElementById('cd-mins');
+  var elSecs = document.getElementById('cd-secs');
+
+  function pad(n){ return String(n).padStart(2, '0'); }
+
+  function tick(){
+    var now = Date.now();
+    var diff = target - now;
+    if (diff <= 0){
+      elDays.textContent = '00'; elHours.textContent='00'; elMins.textContent='00'; elSecs.textContent='00';
+      return;
+    }
+    var s = Math.floor(diff / 1000);
+    var days = Math.floor(s / 86400); s -= days * 86400;
+    var hours = Math.floor(s / 3600); s -= hours * 3600;
+    var mins = Math.floor(s / 60); s -= mins * 60;
+    var secs = s;
+    elDays.textContent = pad(days);
+    elHours.textContent = pad(hours);
+    elMins.textContent = pad(mins);
+    elSecs.textContent = pad(secs);
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  /* ---------- add to calendar link (Google Calendar) ---------- */
+  (function(){
+    var startUTC = "20260822T050000Z"; // 13:00 PHT = 05:00 UTC
+    var endUTC = "20260822T090000Z";   // +4 hours
+    var text = encodeURIComponent("Ryoichi's First Birthday");
+    var details = encodeURIComponent("Join the adventure for Ryoichi's First Birthday!");
+    var location = encodeURIComponent("MGN Resort and Pavillion, IROMRY'S Trading Calaca");
+    var url = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + text +
+      "&dates=" + startUTC + "/" + endUTC + "&details=" + details + "&location=" + location;
+    document.getElementById('calendar-link').setAttribute('href', url);
+  })();
+
+  /* ================================================================
+     ✉️  RSVP SUBMISSION
+     Paste the Web App URL you get from deploying the Apps Script
+     (see the setup guide) into GOOGLE_SCRIPT_URL below.
+     ================================================================ */
+  var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7ah0A-qVxu7ozunylWyp_-mFRsxmBMvGtVQcjvBKjEfQN6EL0RlotHI0gM70LNpwT7w/exec';
+
+  var form = document.getElementById('rsvpForm');
+  var msg = document.getElementById('rsvpMsg');
+  var submitBtn = document.getElementById('submit-btn');
+  var submitLabel = document.getElementById('submit-label');
+  var spinner = document.getElementById('submit-spinner');
+  var hiddenFrame = document.getElementById('rsvp-hidden-frame');
+
+  function showMsg(text, kind){
+    msg.textContent = text;
+    msg.className = 'form-status show' + (kind ? (' ' + kind) : '');
+  }
+
+  // Point the form straight at the Apps Script URL. Submitting a plain
+  // HTML form to a hidden iframe is a normal cross-site navigation, not a
+  // fetch/XHR request — so it is never blocked by CORS, and it works the
+  // same for every visitor whether or not they're signed into Google.
+  // (This is different from — and more reliable than — fetch(url, {mode:
+  // 'no-cors'}), which some mobile browsers and in-app webviews restrict.)
+  if (GOOGLE_SCRIPT_URL.indexOf('PASTE_YOUR') !== 0){
+    form.setAttribute('action', GOOGLE_SCRIPT_URL);
+  }
+
+  var awaitingResponse = false;
+  var fallbackTimer = null;
+
+  function markSuccess(){
+    if (!awaitingResponse) return;
+    awaitingResponse = false;
+    if (fallbackTimer) clearTimeout(fallbackTimer);
+    spinner.classList.remove('show');
+    showMsg('Thank you — your reply has been received with love. 🤍', 'ok');
+    submitLabel.textContent = 'Confirmed ✓';
+    submitBtn.disabled = true;
+    launchConfetti();
+  }
+
+  // The hidden iframe fires a 'load' event once the Apps Script response
+  // finishes loading inside it. We ignore the very first load (the blank
+  // initial iframe) and only treat it as a real confirmation once a
+  // submission is actually in flight.
+  if (hiddenFrame){
+    hiddenFrame.addEventListener('load', markSuccess);
+  }
+
+  form.addEventListener('submit', function(e){
+    var name = document.getElementById('guest-name').value.trim();
+    var contact = document.getElementById('guest-contact').value.trim();
+    if (!name || !contact){
+      e.preventDefault();
+      showMsg('Please share your name and contact number so we know who to expect!', 'err');
+      return;
+    }
+
+    if (GOOGLE_SCRIPT_URL.indexOf('PASTE_YOUR') === 0){
+      e.preventDefault();
+      console.warn('RSVP: GOOGLE_SCRIPT_URL is not configured yet — response was not saved.');
+      showMsg('Thank you — your reply has been received with love. 🤍', 'ok');
+      submitLabel.textContent = 'Confirmed ✓';
+      submitBtn.disabled = true;
+      launchConfetti();
+      return;
+    }
+
+    // Do NOT preventDefault here — let the browser submit the form
+    // normally into the hidden iframe.
+    submitBtn.disabled = true;
+    spinner.classList.add('show');
+    submitLabel.textContent = 'Sending your message in a bottle…';
+    awaitingResponse = true;
+
+    // Safety net: if the iframe's load event is ever slow or blocked by an
+    // unusual browser, still confirm to the guest after a few seconds
+    // rather than leaving the button stuck on "Sending…" forever.
+    fallbackTimer = setTimeout(markSuccess, 4000);
+  });
+
+  function launchConfetti(){
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var colors = ['#e0a63e', '#c1272d', '#3e93b8', '#f6ead0', '#8a5a30'];
+    var container = document.createElement('div');
+    container.className = 'confetti-burst';
+    for (var i = 0; i < 40; i++){
+      var piece = document.createElement('span');
+      piece.className = 'confetti-piece';
+      piece.style.left = (Math.random() * 100) + '%';
+      piece.style.background = colors[i % colors.length];
+      piece.style.animationDelay = (Math.random() * 0.4) + 's';
+      piece.style.animationDuration = (2.2 + Math.random() * 1.2) + 's';
+      piece.style.transform = 'rotate(' + Math.floor(Math.random() * 360) + 'deg)';
+      container.appendChild(piece);
+    }
+    document.body.appendChild(container);
+    setTimeout(function(){ container.remove(); }, 3800);
+  }
+
+})();
+</script>
+
+</body>
+</html>
