@@ -758,7 +758,7 @@
         <img id="img-extra-rsvp" src="" alt="" loading="lazy">
       </div>
 
-      <form id="rsvpForm" novalidate method="POST" target="rsvp-hidden-frame">
+      <form id="rsvpForm" novalidate>
         <div class="field">
           <label for="guest-name">Your name</label>
           <input type="text" id="guest-name" name="name" placeholder="e.g. Monkey D. Luffy" required autocomplete="name">
@@ -800,7 +800,6 @@
 
         <div class="form-status" id="rsvpMsg" role="status" aria-live="polite"></div>
       </form>
-      <iframe name="rsvp-hidden-frame" id="rsvp-hidden-frame" style="display:none;" title="RSVP submission (hidden)" aria-hidden="true"></iframe>
     </div>
   </div>
 </section>
@@ -1068,63 +1067,30 @@
      Paste the Web App URL you get from deploying the Apps Script
      (see the setup guide) into GOOGLE_SCRIPT_URL below.
      ================================================================ */
-  var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7ah0A-qVxu7ozunylWyp_-mFRsxmBMvGtVQcjvBKjEfQN6EL0RlotHI0gM70LNpwT7w/exec';
+  var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyhj1Uogu9rk48YIKuBA_MNoCOE8Wdh5DwWlIsO7c195RVUP1dqb1DicBMv6ppqVuXn/exec';
 
   var form = document.getElementById('rsvpForm');
   var msg = document.getElementById('rsvpMsg');
   var submitBtn = document.getElementById('submit-btn');
   var submitLabel = document.getElementById('submit-label');
   var spinner = document.getElementById('submit-spinner');
-  var hiddenFrame = document.getElementById('rsvp-hidden-frame');
 
   function showMsg(text, kind){
     msg.textContent = text;
     msg.className = 'form-status show' + (kind ? (' ' + kind) : '');
   }
 
-  // Point the form straight at the Apps Script URL. Submitting a plain
-  // HTML form to a hidden iframe is a normal cross-site navigation, not a
-  // fetch/XHR request — so it is never blocked by CORS, and it works the
-  // same for every visitor whether or not they're signed into Google.
-  // (This is different from — and more reliable than — fetch(url, {mode:
-  // 'no-cors'}), which some mobile browsers and in-app webviews restrict.)
-  if (GOOGLE_SCRIPT_URL.indexOf('PASTE_YOUR') !== 0){
-    form.setAttribute('action', GOOGLE_SCRIPT_URL);
-  }
-
-  var awaitingResponse = false;
-  var fallbackTimer = null;
-
-  function markSuccess(){
-    if (!awaitingResponse) return;
-    awaitingResponse = false;
-    if (fallbackTimer) clearTimeout(fallbackTimer);
-    spinner.classList.remove('show');
-    showMsg('Thank you — your reply has been received with love. 🤍', 'ok');
-    submitLabel.textContent = 'Confirmed ✓';
-    submitBtn.disabled = true;
-    launchConfetti();
-  }
-
-  // The hidden iframe fires a 'load' event once the Apps Script response
-  // finishes loading inside it. We ignore the very first load (the blank
-  // initial iframe) and only treat it as a real confirmation once a
-  // submission is actually in flight.
-  if (hiddenFrame){
-    hiddenFrame.addEventListener('load', markSuccess);
-  }
-
   form.addEventListener('submit', function(e){
+    e.preventDefault();
+
     var name = document.getElementById('guest-name').value.trim();
     var contact = document.getElementById('guest-contact').value.trim();
     if (!name || !contact){
-      e.preventDefault();
       showMsg('Please share your name and contact number so we know who to expect!', 'err');
       return;
     }
 
     if (GOOGLE_SCRIPT_URL.indexOf('PASTE_YOUR') === 0){
-      e.preventDefault();
       console.warn('RSVP: GOOGLE_SCRIPT_URL is not configured yet — response was not saved.');
       showMsg('Thank you — your reply has been received with love. 🤍', 'ok');
       submitLabel.textContent = 'Confirmed ✓';
@@ -1133,17 +1099,34 @@
       return;
     }
 
-    // Do NOT preventDefault here — let the browser submit the form
-    // normally into the hidden iframe.
     submitBtn.disabled = true;
     spinner.classList.add('show');
     submitLabel.textContent = 'Sending your message in a bottle…';
-    awaitingResponse = true;
 
-    // Safety net: if the iframe's load event is ever slow or blocked by an
-    // unusual browser, still confirm to the guest after a few seconds
-    // rather than leaving the button stuck on "Sending…" forever.
-    fallbackTimer = setTimeout(markSuccess, 4000);
+    var data = new FormData(form);
+
+    // Apps Script web apps don't send back CORS headers, so with
+    // mode:'no-cors' the browser refuses to let us read the response —
+    // but the POST itself still reaches the script and the sheet write
+    // still happens. We just can't confirm it from here, so we optimistically
+    // show success once the request completes without a network error.
+    fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: data
+    }).then(function(){
+      spinner.classList.remove('show');
+      showMsg('Thank you — your reply has been received with love. 🤍', 'ok');
+      submitLabel.textContent = 'Confirmed ✓';
+      submitBtn.disabled = true;
+      launchConfetti();
+    }).catch(function(err){
+      console.error('RSVP submission failed:', err);
+      spinner.classList.remove('show');
+      showMsg('Something went wrong sending your reply — please try again in a moment.', 'err');
+      submitLabel.textContent = 'Set Sail — Submit RSVP';
+      submitBtn.disabled = false;
+    });
   });
 
   function launchConfetti(){
